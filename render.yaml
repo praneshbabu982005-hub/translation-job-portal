@@ -1,0 +1,38 @@
+services:
+  # Backend API Service
+  - type: web
+    name: translation-job-portal-api
+    env: node
+    plan: free
+    buildCommand: npm install && cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        fromDatabase:
+          name: translation-job-portal-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://translation-job-portal.onrender.com
+      - key: ADMIN_URL
+        value: https://translation-job-portal.onrender.com
+
+  # Frontend Service
+  - type: web
+    name: translation-job-portal
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://translation-job-portal-api.onrender.com
+
+databases:
+  - name: translation-job-portal-db
+    plan: free
+    databaseName: translation-job-portal
