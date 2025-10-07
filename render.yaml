@@ -11,10 +11,6 @@ services:
         value: production
       - key: PORT
         value: 10000
-      - key: MONGODB_URI
-        fromDatabase:
-          name: translation-job-portal-db
-          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL
@@ -31,8 +27,3 @@ services:
     envVars:
       - key: REACT_APP_API_URL
         value: https://translation-job-portal-api.onrender.com
-
-databases:
-  - name: translation-job-portal-db
-    plan: free
-    databaseName: translation-job-portal
