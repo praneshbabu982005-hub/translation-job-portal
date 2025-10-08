@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/translation-job-portal';
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/translation-job-portal';
 
 // MongoDB connection with better error handling
 mongoose.connect(MONGO_URI, { 
@@ -45,7 +45,8 @@ mongoose.connect(MONGO_URI, {
   socketTimeoutMS: 45000,
 })
   .then(() => {
-    console.log('Connected to MongoDB Atlas');
+    console.log('Connected to MongoDB (Local)');
+    console.log(`Database: ${MONGO_URI}`);
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
@@ -53,5 +54,6 @@ mongoose.connect(MONGO_URI, {
   })
   .catch(err => {
     console.error('MongoDB connection error:', err);
+    console.error('Make sure MongoDB is running locally on port 27017');
     process.exit(1);
   });
